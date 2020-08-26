@@ -1,8 +1,8 @@
-# ACME Sports web site installer
+# Constructex web site installer
 
-This installs a clean Wordpress version including the Results NFL teams plungin and the test page.
+This installs a clean Wordpress version.
 
-* To see the working solution go to: <http://localhost:8000/nfl-teams>  
+* Homepage: <http://localhost:8000>  
 * WP admin side go to: <http://localhost:8000/wp-admin>  
 * User/Pwd: admin/secret  
 
@@ -19,6 +19,25 @@ Just run the `install.sh` file
 ./install.sh
 ```
 
-Resulta NFL plugin URL: <https://github.com/CesarReyes/resulta-nfl-teams>
+## After install  
 
-To download the plugin: https://github.com/CesarReyes/resulta-nfl-teams/releases/tag/v1.0
+To suppport upload large files update the file `wordpress/.htaccess` replace with the below content and reload the Docker container `sosmd-constructex_wordpress_1` using the Docker dashboard:
+
+```bash
+# BEGIN WordPress
+php_value upload_max_filesize 400M
+php_value post_max_size 400M
+php_value memory_limit 256M
+php_value max_execution_time 300
+php_value max_input_time 300
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+```
